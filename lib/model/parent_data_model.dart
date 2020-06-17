@@ -36,7 +36,7 @@ class ParentDetails {
   String fatherEmail;
   String fatherMobile;
   String fatherEmployer;
-  String fatherProfilePic;
+  String fatherProfilePic ;
   String fatherQualification;
   String motherFirstName;
   String motherLastName;

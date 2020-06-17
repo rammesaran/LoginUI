@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_webapp_demo/model/login_reques_model.dart';
 import 'package:new_webapp_demo/model/parent_data_model.dart';
-import 'package:new_webapp_demo/screens/home_screen.dart';
+import 'package:new_webapp_demo/screens/profile_screen.dart';
 import 'package:new_webapp_demo/services/login_request.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -35,79 +35,93 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       backgroundColor: Colors.blue,
-      body: Center(
-        child: Form(
-          key: _formKey,
-          child: Container(
-            margin: EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  logo,
-                  textMobilenumber(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  textPassword(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      padding: EdgeInsets.all(12),
-                      color: Colors.white,
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          NetworkRequest request = NetworkRequest();
-                          LoginRequest input = await request.getLoginUsers(
-                              mobilenumber.text.trim(), password.text.trim());
-
-                          if (input != null) {
-                            //print(input.name);
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Welcome ${input.name}'),
-                                    content: Text(
-                                            'Registred LoginID is ${input.loginId} \n Status Message : ${input.status}') ??
-                                        Text('Invalid Name'),
-                                    actions: [
-                                      FlatButton(
-                                        onPressed: () async {
-                                          ParentModel parentdata = await request
-                                              .getParentDetails(input.loginId);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => HomeScreen(
-                                                parentinput: parentdata,
-                                              ),
-                                            ),
-                                          );
-                                          //Navigator.pop(context);
-                                          mobilenumber.clear();
-                                          password.clear();
-                                        },
-                                        child: const Text('Ok'),
-                                      ),
-                                    ],
-                                  );
-                                });
-                          } else {
-                            print('invalid name');
-                          }
-                        }
-                      },
-                      child: Text("Submit"),
+      body: Builder(
+        builder: (context) => Center(
+          child: Form(
+            key: _formKey,
+            child: Container(
+              margin: EdgeInsets.all(20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    logo,
+                    textMobilenumber(),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
+                    textPassword(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        padding: EdgeInsets.all(12),
+                        color: Colors.white,
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            NetworkRequest request = NetworkRequest();
+                            LoginRequest input = await request.getLoginUsers(
+                                mobilenumber.text.trim(), password.text.trim());
+
+                            if (input.loginId != 0 &&
+                                input.status !=
+                                    'Invalid UserName and PassWord') {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Welcome ${input.name}'),
+                                      content: Text(
+                                              'Login Status Message : ${input.status}') ??
+                                          Text('Invalid Name'),
+                                      actions: [
+                                        FlatButton(
+                                          onPressed: () async {
+                                            ParentModel parentdata =
+                                                await request.getParentDetails(
+                                                    input.loginId);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => MyProfile(
+                                                  parentinput: parentdata,
+                                                ),
+                                              ),
+                                            );
+                                            //Navigator.pop(context);
+                                            mobilenumber.clear();
+                                            password.clear();
+                                          },
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            } else if (input.status ==
+                                'Invalid UserName and PassWord') {
+                              final snackBar = SnackBar(
+                                content:
+                                    Text('Invalid MobileNumber or Password'),
+                              );
+                              Scaffold.of(context).showSnackBar(snackBar);
+                            } else {
+                              final snackBar = SnackBar(
+                                content: Text('UserName Not Exit in System'),
+                              );
+                              Scaffold.of(context).showSnackBar(snackBar);
+                            }
+                          }
+                        },
+                        child: Text("Submit"),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
