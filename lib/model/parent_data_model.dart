@@ -1,3 +1,4 @@
+
 class ParentModel {
   ParentDetails parentDetails;
   List<StudentDetails> studentDetails;
@@ -120,6 +121,7 @@ class StudentDetails {
   String admissionNo;
   int genderId;
   String profilePic;
+  String admittedDate;
   String emailId;
   int classId;
   int classSectionId;
@@ -133,12 +135,14 @@ class StudentDetails {
       this.admissionNo,
       this.genderId,
       this.profilePic,
+      this.admittedDate,
       this.classSectionId});
 
   StudentDetails.fromJson(Map<String, dynamic> json) {
     studentId = json['StudentId'];
     firstName = json['FirstName'];
     lastName = json['LastName'];
+    admittedDate =json['AdmittedDate'];
     schoolStudentId = json['SchoolStudentId'];
     dateOfBirth = json['DateOfBirth'];
     schoolId = json['SchoolId'];
@@ -164,7 +168,7 @@ class StudentDetails {
     data['SchoolId'] = this.schoolId;
     data['AdmissionNo'] = this.admissionNo;
     data['GenderId'] = this.genderId;
-
+    data['AdmittedDate'] = this.admittedDate;
     data['EmailId'] = this.emailId;
 
     data['ClassSectionId'] = this.classSectionId;

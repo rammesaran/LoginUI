@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:new_webapp_demo/model/parent_data_model.dart';
 import 'dart:ui' as ui;
 
-import 'package:new_webapp_demo/model/parent_data_model.dart';
-
-class MyProfile extends StatefulWidget {
+class MotherProfile extends StatefulWidget {
   final ParentModel parentinput;
 
-  MyProfile({Key key, this.parentinput}) : super(key: key);
-
+  const MotherProfile({Key key, this.parentinput}) : super(key: key);
   @override
-  _MyProfileState createState() => _MyProfileState();
+  _MotherProfileState createState() => _MotherProfileState();
 }
 
-class _MyProfileState extends State<MyProfile> {
+class _MotherProfileState extends State<MotherProfile> {
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     final imageurl =
         'https://schoolskies.blob.core.windows.net/common/Parent/Full/';
-        //bool isnull=false ;
+      
 
     return WillPopScope(
       onWillPop: _onBackPressed,
@@ -50,33 +48,32 @@ class _MyProfileState extends State<MyProfile> {
                 CircleAvatar(
                   radius: _width < _height ? _width / 4 : _height / 4,
                   backgroundImage: widget
-                              .parentinput.parentDetails.fatherProfilePic ==
+                              .parentinput.parentDetails.motherProfilePic ==
                           null
                       ? AssetImage(
-                          'images/fatherProfile.jpg')
+                          'images/motherProfile.jpg')
                       : NetworkImage(
                           (imageurl +
                               image(widget
-                                  .parentinput.parentDetails.fatherProfilePic)),
+                                  .parentinput.parentDetails.motherProfilePic)),
                         ),
                 ),
                 SizedBox(
                   height: _height / 25.0,
                 ),
-                
-                widget.parentinput.parentDetails.fatherFirstName ==null ? Text("SchoolSkies") : Text( 
-                  '${widget.parentinput.parentDetails.fatherFirstName + " " + widget.parentinput.parentDetails.fatherLastName}',
+                 widget.parentinput.parentDetails.motherFirstName ==null ? Text("SchoolSkies")  :
+                Text(
+                  '${widget.parentinput.parentDetails.motherFirstName + " " + widget.parentinput.parentDetails.motherLastName}',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: _width / 15,
                       color: Colors.white),
-                
                 ),
                 Padding(
                   padding: EdgeInsets.only(
                       top: _height / 30, left: _width / 8, right: _width / 8),
                   child: Text(
-                      "Mobile Number: ${widget.parentinput.parentDetails.fatherMobile}",
+                      "Mobile Number: ${widget.parentinput.parentDetails.motherMobile}",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: _width / 25,
@@ -88,7 +85,7 @@ class _MyProfileState extends State<MyProfile> {
                   padding: EdgeInsets.only(
                       top: _height / 30, left: _width / 8, right: _width / 8),
                   child: Text(
-                      "Email ID: ${widget.parentinput.parentDetails.fatherEmail}",
+                      "Email ID: ${widget.parentinput.parentDetails.motherEmail}",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: _width / 25,
@@ -101,19 +98,16 @@ class _MyProfileState extends State<MyProfile> {
                 Padding(
                   padding: EdgeInsets.only(left: _width / 8, right: _width / 8),
                   child: FlatButton(
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                  
+                    onPressed: _onBackPressed,
                     child: Container(
                         child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        //Icon(Icons.power_settings_new),
+                        Icon(Icons.power_settings_new),
                         SizedBox(
                           width: _width / 30,
                         ),
-                        Text('Go Back')
+                        Text('LogOut')
                       ],
                     )),
                     color: Colors.blue[50],
@@ -134,16 +128,16 @@ class _MyProfileState extends State<MyProfile> {
   Future<bool> _onBackPressed() {
     return showDialog(
           context: context,
-          builder: (context) =>  AlertDialog(
-            title:  Text('Are you sure?'),
-            content:  Text('Do you want to exit an App'),
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
             actions: <Widget>[
-               GestureDetector(
+              new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
                 child: Text("NO"),
               ),
               SizedBox(height: 16),
-               GestureDetector(
+              new GestureDetector(
                 onTap: () => SystemNavigator.pop(),
                 child: Text("YES"),
               ),

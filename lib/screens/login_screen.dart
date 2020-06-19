@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:new_webapp_demo/model/login_reques_model.dart';
 import 'package:new_webapp_demo/model/parent_data_model.dart';
-import 'package:new_webapp_demo/screens/profile_screen.dart';
+import 'package:new_webapp_demo/screens/mother_screen.dart';
+import 'package:new_webapp_demo/screens/students_screen.dart';
 import 'package:new_webapp_demo/services/login_request.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -75,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text('Welcome ${input.name}'),
+                                      title:  input.name!="" ? Text('Welcome ${input.name}') : Text('Welcome SchoolSkies User'),
                                       content: Text(
                                               'Login Status Message : ${input.status}') ??
                                           Text('Invalid Name'),
@@ -85,14 +86,46 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ParentModel parentdata =
                                                 await request.getParentDetails(
                                                     input.loginId);
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => MyProfile(
-                                                  parentinput: parentdata,
+                                                    if(input.name ==""){
+                                                        Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  //     MyProfile(
+                                                  //   parentinput: parentdata,
+                                                  // ),
+                                                  StudentDataDetails(
+                                                    parentModel: parentdata,
+                                                  ),
                                                 ),
-                                              ),
-                                            );
+                                              );
+                                                    }
+                                            else if (input.name.split(" ").join() ==
+                                                parentdata.parentDetails
+                                                        .fatherFirstName +
+                                                    parentdata.parentDetails
+                                                        .fatherLastName) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                  StudentDataDetails(
+                                                    parentModel: parentdata,
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MotherProfile(
+                                                    parentinput: parentdata,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+
                                             //Navigator.pop(context);
                                             mobilenumber.clear();
                                             password.clear();
