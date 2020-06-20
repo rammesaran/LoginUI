@@ -5,13 +5,13 @@ import 'package:new_webapp_demo/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
-  _SplashScreenState createState() => new _SplashScreenState();
+  _SplashScreenState createState() =>  _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
-    var _duration = new Duration(seconds: 5);
-    return new Timer(_duration, navigationPage);
+    var _duration =  Duration(seconds: 5);
+    return  Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
@@ -34,8 +34,8 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Container(
           height: 100,
-          child: new Center(
-            child: new Image.asset(
+          child:  Center(
+            child:  Image.asset(
               'images/school.png',
             ),
           ),

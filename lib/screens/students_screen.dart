@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:new_webapp_demo/model/homework_model.dart';
+import 'package:new_webapp_demo/model/login_reques_model.dart';
 import 'package:new_webapp_demo/model/notes_model.dart';
 import 'package:new_webapp_demo/model/parent_data_model.dart';
 import 'package:new_webapp_demo/model/test_model.dart';
@@ -12,7 +14,8 @@ import 'package:new_webapp_demo/services/login_request.dart';
 
 class StudentDataDetails extends StatefulWidget {
   final ParentModel parentModel;
-  StudentDataDetails({@required this.parentModel});
+  final LoginRequest loginrequest;
+  StudentDataDetails({@required this.parentModel, @required this.loginrequest});
   @override
   _StudentDataDetailsState createState() => _StudentDataDetailsState();
 }
@@ -69,17 +72,24 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
           padding: EdgeInsets.zero,
           children: [
           UserAccountsDrawerHeader(
-            accountName: Text(
+            accountName: ( widget.loginrequest.name.split(" ").join().toString() == widget.parentModel.parentDetails.fatherFirstName+widget.parentModel.parentDetails.fatherLastName ) ? Text(
         widget.parentModel.parentDetails.fatherFirstName +
             '' +
-            widget.parentModel.parentDetails.fatherLastName),
+            widget.parentModel.parentDetails.fatherLastName) : Text(widget.parentModel.parentDetails.motherFirstName + ''+widget.parentModel.parentDetails.motherLastName,),
             accountEmail:
-        Text(widget.parentModel.parentDetails.fatherEmail),
+            
+             ( widget.loginrequest.name.split(" ").join().toString() == widget.parentModel.parentDetails.fatherFirstName+widget.parentModel.parentDetails.fatherLastName ) ?
+        Text(widget.parentModel.parentDetails.fatherEmail) : Text(widget.parentModel.parentDetails.motherEmail) ?? Text('No Emailid'),
             currentAccountPicture: CircleAvatar(
       backgroundColor: Colors.white,
-      child: Text(
-        widget.parentModel.parentDetails.fatherFirstName[0],
+      child:  widget.loginrequest.name.split(" ").join().toString() == widget.parentModel.parentDetails.fatherFirstName+widget.parentModel.parentDetails.fatherLastName ? Text(
+        widget.parentModel.parentDetails.fatherFirstName[0], 
         style: TextStyle(fontSize: 40.0),
+      ) : Text(
+        widget.parentModel.parentDetails.motherFirstName[0],
+        style: TextStyle(
+            fontSize: 40.0,
+        ),
       ),
             ),
           ),
@@ -90,10 +100,16 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
           context,
           MaterialPageRoute(
               builder: (context) => MyProfile(
+                    loginRequestdemo: widget.loginrequest,
                     parentinput: widget.parentModel,
                   )));
             },
             trailing: Icon(Icons.arrow_right),
+          ),
+          ListTile(
+              title: Text('Logout'),
+              onTap: _onBackPressed,
+              trailing: Icon(Icons.power_settings_new),
           ),
           ],
         ),
@@ -172,96 +188,132 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
                     height: 20,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RaisedButton(
-                        color: Colors.blue,
-                        onPressed: () async {
-                          List<HomeWorkModel> homeWorkModeldata =
-                              await request.getHomeWork(
-                                  widget
-                                      .parentModel
-                                      .studentDetails[tabIndex]
-                                      .studentId,
-                                  widget
-                                      .parentModel
-                                      .studentDetails[tabIndex]
-                                      .schoolId);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomeWorkView(
-                                        homeWorkModel:
-                                            homeWorkModeldata,
-                                      )));
-                        },
-                        child: Text('HomeWork',
-                          style: TextStyle(
-                              color: Colors.white,
+                    
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        RaisedButton(
+                          color: Colors.blue,
+                          onPressed: () async {
+                            List<HomeWorkModel> homeWorkModeldata =
+                                await request.getHomeWork(
+                    widget
+                    .parentModel
+                    .studentDetails[tabIndex]
+                    .studentId,
+                    widget
+                    .parentModel
+                    .studentDetails[tabIndex]
+                    .schoolId);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                    builder: (context) =>
+                    HomeWorkView(
+                      homeWorkModel:
+                          homeWorkModeldata,
+                    )));
+                          },
+                          child: Text('Homework',
+                            style: TextStyle(
+                                color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
 
-                      RaisedButton(
-                        color: Colors.blue,
-                        onPressed: () async {
-                          List<NotesModel> notesModeldata =
-                              await request.getNotesDetails(
-                                  widget
-                                      .parentModel
-                                      .studentDetails[tabIndex]
-                                      .studentId,
-                                  widget
-                                      .parentModel
-                                      .studentDetails[tabIndex]
-                                      .schoolId);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                    NotesScreen(
-                                      notesmodel: notesModeldata,
-                                    )
-                                      ),
-                                      );
-                        },
-                        child: Text('Notes',
-                          style: TextStyle(
-                              color: Colors.white,
+                        RaisedButton(
+                          color: Colors.blue,
+                          onPressed: () async {
+                            List<NotesModel> notesModeldata =
+                                await request.getNotesDetails(
+                    widget
+                    .parentModel
+                    .studentDetails[tabIndex]
+                    .studentId,
+                    widget
+                    .parentModel
+                    .studentDetails[tabIndex]
+                    .schoolId);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                    builder: (context) =>
+                  NotesScreen(
+                    notesmodel: notesModeldata,
+                  )
+                    ),
+                    );
+                          },
+                          child: Text('Notes',
+                            style: TextStyle(
+                                color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      RaisedButton(
-                        color: Colors.blue,
-                        onPressed: () async {
-                          List<TestModel> testmodeldata =
-                              await request.getTestDetails(
-                                  widget
-                                      .parentModel
-                                      .studentDetails[tabIndex]
-                                      .studentId,
-                                  widget
-                                      .parentModel
-                                      .studentDetails[tabIndex]
-                                      .schoolId);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      TestAndAssignment(
-                                        testassignment:
-                                            testmodeldata,
-                                      )));
-                        },
-                        child: Text('Test & Assignment',
-                          style: TextStyle(
-                              color: Colors.white,
+                        RaisedButton(
+                          color: Colors.blue,
+                          onPressed: () async {
+                            List<TestModel> testmodeldata =
+                                await request.getTestDetails(
+                    widget
+                    .parentModel
+                    .studentDetails[tabIndex]
+                    .studentId,
+                    widget
+                    .parentModel
+                    .studentDetails[tabIndex]
+                    .schoolId);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                    builder: (context) =>
+                    TestAndAssignment(
+                      testassignment:
+                          testmodeldata,
+                    )));
+                          },
+                          child: Text('Test',
+                            style: TextStyle(
+                                color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+
+                         
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                         RaisedButton(
+                          color: Colors.blue,
+                          onPressed: () async {
+                            List<TestModel> testmodeldata =
+                                await request.getAssignmentDetails(
+                    widget
+                    .parentModel
+                    .studentDetails[tabIndex]
+                    .studentId,
+                    widget
+                    .parentModel
+                    .studentDetails[tabIndex]
+                    .schoolId);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                    builder: (context) =>
+                    TestAndAssignment(
+                      testassignment:
+                          testmodeldata,
+                    )));
+                          },
+                          child: Text('Assignment',
+                            style: TextStyle(
+                                color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),
@@ -272,22 +324,29 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
         ).toList(),
       ),
 
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //     List<HomeWorkModel> homeWorkModeldata = await request.getHomeWork(
-      //         widget.parentModel.studentDetails[tabIndex].studentId,
-      //         widget.parentModel.studentDetails[tabIndex].schoolId);
-      //     Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //             builder: (context) => HomeWorkView(
-      //                   homeWorkModel: homeWorkModeldata,
-      //                 )));
-      //   },
-      //   child: Icon(Icons.forward),
-      // ),
             ),
         ),
     );
+  }
+    Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text("NO"),
+              ),
+              SizedBox(height: 16),
+              new GestureDetector(
+                onTap: () => SystemNavigator.pop(),
+                child: Text("YES"),
+              ),
+            ],
+          ),
+        ) ??
+        false;
   }
 }

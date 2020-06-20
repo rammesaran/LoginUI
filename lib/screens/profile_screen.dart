@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:new_webapp_demo/model/login_reques_model.dart';
 import 'dart:ui' as ui;
 
 import 'package:new_webapp_demo/model/parent_data_model.dart';
 
 class MyProfile extends StatefulWidget {
   final ParentModel parentinput;
+  final LoginRequest loginRequestdemo;
 
-  MyProfile({Key key, this.parentinput}) : super(key: key);
+  MyProfile(
+      {Key key, @required this.parentinput, @required this.loginRequestdemo})
+      : super(key: key);
 
   @override
   _MyProfileState createState() => _MyProfileState();
@@ -20,7 +24,7 @@ class _MyProfileState extends State<MyProfile> {
     final _height = MediaQuery.of(context).size.height;
     final imageurl =
         'https://schoolskies.blob.core.windows.net/common/Parent/Full/';
-        //bool isnull=false ;
+    //bool isnull=false ;
 
     return WillPopScope(
       onWillPop: _onBackPressed,
@@ -47,64 +51,118 @@ class _MyProfileState extends State<MyProfile> {
                 SizedBox(
                   height: _height / 12,
                 ),
-                CircleAvatar(
-                  radius: _width < _height ? _width / 4 : _height / 4,
-                  backgroundImage: widget
-                              .parentinput.parentDetails.fatherProfilePic ==
-                          null
-                      ? AssetImage(
-                          'images/fatherProfile.jpg')
-                      : NetworkImage(
-                          (imageurl +
-                              image(widget
-                                  .parentinput.parentDetails.fatherProfilePic)),
-                        ),
-                ),
+                if (widget.parentinput.parentDetails.fatherProfilePic == null ||
+                    widget.parentinput.parentDetails.motherProfilePic == null)
+                  CircleAvatar(
+                      radius: _width < _height ? _width / 4 : _height / 4,
+                      backgroundImage: AssetImage('images/fatherProfile.jpg'),)
+                    
+                    
+                       else if(widget.loginRequestdemo.name
+                        .split(" ")
+                        .join()
+                        .toString() ==
+                    widget.parentinput.parentDetails.fatherFirstName +
+                        widget.parentinput.parentDetails.fatherLastName)
+                       CircleAvatar(
+                      radius: _width < _height ? _width / 4 : _height / 4,
+                      backgroundImage: NetworkImage((imageurl+image(widget.parentinput.parentDetails.fatherProfilePic)),),)
+                      else  
+                       CircleAvatar(
+                      radius: _width < _height ? _width / 4 : _height / 4,
+                      backgroundImage: NetworkImage((imageurl+image(widget.parentinput.parentDetails.motherProfilePic)),),),
+
+                      
                 SizedBox(
                   height: _height / 25.0,
                 ),
-                
-                widget.parentinput.parentDetails.fatherFirstName ==null ? Text("SchoolSkies") : Text( 
-                  '${widget.parentinput.parentDetails.fatherFirstName + " " + widget.parentinput.parentDetails.fatherLastName}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: _width / 15,
-                      color: Colors.white),
-                
+                if (widget.parentinput.parentDetails.fatherFirstName == null ||
+                    widget.parentinput.parentDetails.motherFirstName == null)
+                  Text("SchoolSkies")
+                else if (widget.loginRequestdemo.name
+                        .split(" ")
+                        .join()
+                        .toString() ==
+                    widget.parentinput.parentDetails.fatherFirstName +
+                        widget.parentinput.parentDetails.fatherLastName)
+                  Text(
+                    '${widget.parentinput.parentDetails.fatherFirstName + " " + widget.parentinput.parentDetails.fatherLastName}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: _width / 15,
+                        color: Colors.white),
+                  )
+                else
+                  Text(
+                    '${widget.parentinput.parentDetails.motherFirstName + "" + widget.parentinput.parentDetails.motherLastName}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: _width / 15,
+                        color: Colors.white),
+                  ),
+                SizedBox(
+                  height: _height / 25.0,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: _height / 30, left: _width / 8, right: _width / 8),
-                  child: Text(
-                      "Mobile Number: ${widget.parentinput.parentDetails.fatherMobile}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: _width / 25,
-                          color: Colors.white),
-                      textAlign: TextAlign.center),
-                ),
-                SizedBox(height: 10.0),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: _height / 30, left: _width / 8, right: _width / 8),
-                  child: Text(
-                      "Email ID: ${widget.parentinput.parentDetails.fatherEmail}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: _width / 25,
-                          color: Colors.white),
-                      textAlign: TextAlign.center),
-                ),
+                if (widget.parentinput.parentDetails.fatherFirstName == null ||
+                    widget.parentinput.parentDetails.motherFirstName == null)
+                  Text("User")
+                else if (widget.loginRequestdemo.name
+                        .split(" ")
+                        .join()
+                        .toString() ==
+                    widget.parentinput.parentDetails.fatherFirstName +
+                        widget.parentinput.parentDetails.fatherLastName)
+                  Text(
+                    'MobileNumber : ${widget.parentinput.parentDetails.fatherMobile}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: _width / 20,
+                        color: Colors.white),
+                  )
+                else
+                  Text(
+                    'MobileNumber : ${widget.parentinput.parentDetails.motherMobile}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: _width / 20,
+                        color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                SizedBox(height: 20.0),
+                if (widget.parentinput.parentDetails.fatherFirstName == null ||
+                    widget.parentinput.parentDetails.motherFirstName == null)
+                  Text("User")
+                else if (widget.loginRequestdemo.name
+                        .split(" ")
+                        .join()
+                        .toString() ==
+                    widget.parentinput.parentDetails.fatherFirstName +
+                        widget.parentinput.parentDetails.fatherLastName)
+                  Text(
+                    'Email ID : ${widget.parentinput.parentDetails.fatherEmail}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: _width / 20,
+                        color: Colors.white),
+                  )
+                else
+                  Text(
+                    'Email ID : ${widget.parentinput.parentDetails.motherEmail}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: _width / 20,
+                        color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
                 SizedBox(
                   height: _height / 25.0,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: _width / 8, right: _width / 8),
                   child: FlatButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.pop(context);
                     },
-                  
                     child: Container(
                         child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -134,16 +192,16 @@ class _MyProfileState extends State<MyProfile> {
   Future<bool> _onBackPressed() {
     return showDialog(
           context: context,
-          builder: (context) =>  AlertDialog(
-            title:  Text('Are you sure?'),
-            content:  Text('Do you want to exit an App'),
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Do you want to exit an App'),
             actions: <Widget>[
-               GestureDetector(
+              GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
                 child: Text("NO"),
               ),
               SizedBox(height: 16),
-               GestureDetector(
+              GestureDetector(
                 onTap: () => SystemNavigator.pop(),
                 child: Text("YES"),
               ),

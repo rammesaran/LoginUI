@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_webapp_demo/model/login_reques_model.dart';
 import 'package:new_webapp_demo/model/parent_data_model.dart';
-import 'package:new_webapp_demo/screens/mother_screen.dart';
 import 'package:new_webapp_demo/screens/students_screen.dart';
 import 'package:new_webapp_demo/services/login_request.dart';
 
@@ -95,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   //   parentinput: parentdata,
                                                   // ),
                                                   StudentDataDetails(
+                                                    loginrequest: input,
                                                     parentModel: parentdata,
                                                   ),
                                                 ),
@@ -110,18 +110,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                   StudentDataDetails(
+                                                    loginrequest: input,
                                                     parentModel: parentdata,
                                                   ),
                                                 ),
                                               );
-                                            } else {
+                                            } else if(input.name.split(" ").join() == parentdata.parentDetails.motherFirstName + parentdata.parentDetails.motherLastName) {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      MotherProfile(
-                                                    parentinput: parentdata,
-                                                  ),
+                                                  //     MotherProfile(
+                                                  //   parentinput: parentdata,
+                                                  // ),
+                                                  StudentDataDetails(
+                                                    loginrequest: input,
+                                                    parentModel: parentdata,
+                                                ),
                                                 ),
                                               );
                                             }

@@ -57,5 +57,14 @@ var response = await http.get('$testurl?studentId=$studentid&type=$typeid&school
 
 }
 
+Future<List<TestModel>> getAssignmentDetails(int studentid,  int schoolid, {int typeid=2})async{
+
+var response = await http.get('$testurl?studentId=$studentid&type=$typeid&schoolId=$schoolid');
+    Iterable list = (json.decode(response.body));
+    List<TestModel> testdata = list.map((e) => TestModel.fromJson(e)).toList();
+    return testdata;
+
+}
+
 
 }
