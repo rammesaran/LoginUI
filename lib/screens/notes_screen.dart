@@ -15,6 +15,7 @@ class _NotesScreenState extends State<NotesScreen> {
     return Scaffold(
     
     appBar: AppBar(
+      centerTitle: true,
       title: Text('Notes '),
     ),
     body: widget.notesmodel.length!=0 ? ListView.builder(
@@ -52,9 +53,9 @@ class _NotesScreenState extends State<NotesScreen> {
       );
 
       }) : Center(
-        child: Text('No HomeWork is Posted',
+        child: Text('No Notes is Posted',
         style: TextStyle(
-            fontSize: 30.0,
+            fontSize: 25.0,
             fontWeight: FontWeight.bold,
         ),
         

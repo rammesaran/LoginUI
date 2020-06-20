@@ -16,7 +16,8 @@ class _TestAndAssignmentState extends State<TestAndAssignment> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Test&Assignment'),
+          centerTitle: true,
+          title: Text('Test & Assignment'),
         ),
         body: widget.testassignment.length != 0
             ? ListView.builder(
@@ -53,9 +54,9 @@ class _TestAndAssignmentState extends State<TestAndAssignment> {
                 })
             : Center(
                 child: Text(
-                  'No Test& Assignment is Posted',
+                  'No Test & Assignment is Posted',
                   style: TextStyle(
-                    fontSize: 30.0,
+                    fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

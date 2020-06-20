@@ -4,7 +4,7 @@ import 'src/app.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'My app', 
+    title: 'SchoolSkies', 
     home: MyApp(),
   ),
   );

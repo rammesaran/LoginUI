@@ -15,6 +15,7 @@ class _HomeWorkViewState extends State<HomeWorkView> {
     return Scaffold(
     
     appBar: AppBar(
+      centerTitle: true,
       title: Text('Homework '),
     ),
     body: widget.homeWorkModel.length!=0 ? ListView.builder(
@@ -54,7 +55,7 @@ class _HomeWorkViewState extends State<HomeWorkView> {
       }) : Center(
         child: Text('No HomeWork is Posted',
         style: TextStyle(
-            fontSize: 30.0,
+            fontSize: 25.0,
             fontWeight: FontWeight.bold,
         ),
         
