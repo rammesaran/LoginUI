@@ -12,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController mobilenumber = TextEditingController();
   TextEditingController password = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   bool passwordVisible;
 
@@ -20,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     passwordVisible = true;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title:  input.name!="" ? Text('Welcome ${input.name}') : Text('Welcome SchoolSkies User'),
+                                      title: input.name != ""
+                                          ? Text('Welcome ${input.name}')
+                                          : Text('Welcome SchoolSkies User'),
                                       content: Text(
                                               'Login Status Message : ${input.status}') ??
                                           Text('Invalid Name'),
@@ -85,48 +89,55 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ParentModel parentdata =
                                                 await request.getParentDetails(
                                                     input.loginId);
-                                                    if(input.name ==""){
-                                                        Navigator.push(
+                                            if (input.name == "") {
+                                           
+                                              Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                  //     MyProfile(
-                                                  //   parentinput: parentdata,
-                                                  // ),
-                                                  StudentDataDetails(
+                                                      StudentDataDetails(
                                                     loginrequest: input,
                                                     parentModel: parentdata,
                                                   ),
                                                 ),
                                               );
-                                                    }
-                                            else if (input.name.split(" ").join() ==
+                                            } else if (input.name
+                                                    .split(" ")
+                                                    .join() ==
                                                 parentdata.parentDetails
                                                         .fatherFirstName +
                                                     parentdata.parentDetails
                                                         .fatherLastName) {
+                                       
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                  StudentDataDetails(
+                                                      StudentDataDetails(
                                                     loginrequest: input,
                                                     parentModel: parentdata,
                                                   ),
                                                 ),
                                               );
-                                            } else if(input.name.split(" ").join() == parentdata.parentDetails.motherFirstName + parentdata.parentDetails.motherLastName) {
+                                            } else if (input.name
+                                                    .split(" ")
+                                                    .join() ==
+                                                parentdata.parentDetails
+                                                        .motherFirstName +
+                                                    parentdata.parentDetails
+                                                        .motherLastName) {
+                                     
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                  //     MotherProfile(
-                                                  //   parentinput: parentdata,
-                                                  // ),
-                                                  StudentDataDetails(
+                                                      //     MotherProfile(
+                                                      //   parentinput: parentdata,
+                                                      // ),
+                                                      StudentDataDetails(
                                                     loginrequest: input,
                                                     parentModel: parentdata,
-                                                ),
+                                                  ),
                                                 ),
                                               );
                                             }
@@ -142,12 +153,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                             } else if (input.status ==
                                 'Invalid UserName and PassWord') {
+                         
                               final snackBar = SnackBar(
                                 content:
                                     Text('Invalid MobileNumber or Password'),
                               );
                               Scaffold.of(context).showSnackBar(snackBar);
                             } else {
+                
                               final snackBar = SnackBar(
                                 content: Text('UserName Not Exit in System'),
                               );

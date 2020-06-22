@@ -13,6 +13,7 @@ import 'package:new_webapp_demo/screens/test_assignment_screen.dart';
 import 'package:new_webapp_demo/services/login_request.dart';
 
 class StudentDataDetails extends StatefulWidget {
+  
   final ParentModel parentModel;
   final LoginRequest loginrequest;
   StudentDataDetails({@required this.parentModel, @required this.loginrequest});
@@ -22,6 +23,7 @@ class StudentDataDetails extends StatefulWidget {
 
 class _StudentDataDetailsState extends State<StudentDataDetails>
     with TickerProviderStateMixin {
+   
   String getsplitimage(String url) {
     List<String> data = url.split('/');
     String schoolid = data[4];
@@ -30,7 +32,7 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
         "https://schoolskies.blob.core.windows.net/school-$schoolid/Student/Full/$photourl";
     return finalurl;
   }
-
+  
   TabController _tabController;
   final List<Tab> myTabs = <Tab>[];
   int tabIndex = 0;
@@ -43,10 +45,10 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
     }
   }
 
+
   @override
   void initState() {
     super.initState();
-
     getTabMenus();
 
     _tabController =
@@ -331,17 +333,20 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
     Future<bool> _onBackPressed() {
     return showDialog(
           context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit an App'),
+          builder: (context) =>  AlertDialog(
+            title:  Text('Are you sure?'),
+            content:  Text('Do you want to exit an App'),
             actions: <Widget>[
-              new GestureDetector(
+               GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
                 child: Text("NO"),
               ),
               SizedBox(height: 16),
-              new GestureDetector(
-                onTap: () => SystemNavigator.pop(),
+               GestureDetector(
+                onTap: ()async{
+               
+                  SystemNavigator.pop();
+                }, 
                 child: Text("YES"),
               ),
             ],
@@ -349,4 +354,6 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
         ) ??
         false;
   }
+
+
 }
