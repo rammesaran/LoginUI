@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_webapp_demo/model/homework_model.dart';
+import 'package:new_webapp_demo/screens/details_page.dart';
 
 class HomeWorkView extends StatefulWidget {
  final  List<HomeWorkModel> homeWorkModel;
@@ -29,10 +30,21 @@ class _HomeWorkViewState extends State<HomeWorkView> {
                     children: [
                       
                        ListTile(
+                         selected: true,
+                         onTap: (){
+                           Navigator.push(context, MaterialPageRoute(
+                             builder: (context) => DetailsPage(
+                                homeworkdetails: widget.homeWorkModel,
+                            
+                             ),
+                             ),
+                             );
+                         },
+                         
                          trailing: Icon(Icons.navigate_next,
                           color: Colors.white,
                          ),
-                         leading: Icon(Icons.subject,
+                         leading: Icon(Icons.home,
                           color: Colors.white,
                          ),
                          

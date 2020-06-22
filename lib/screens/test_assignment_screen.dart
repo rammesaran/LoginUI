@@ -35,7 +35,7 @@ class _TestAndAssignmentState extends State<TestAndAssignment> {
                               color: Colors.white,
                             ),
                             leading: Icon(
-                              Icons.subject,
+                              Icons.assignment,
                               color: Colors.white,
                             ),
                             title: Text(

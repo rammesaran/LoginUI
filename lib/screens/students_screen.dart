@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:new_webapp_demo/model/homework_model.dart';
 import 'package:new_webapp_demo/model/login_reques_model.dart';
 import 'package:new_webapp_demo/model/notes_model.dart';
@@ -16,14 +15,15 @@ class StudentDataDetails extends StatefulWidget {
   
   final ParentModel parentModel;
   final LoginRequest loginrequest;
-  StudentDataDetails({@required this.parentModel, @required this.loginrequest});
+  StudentDataDetails({   this.parentModel, @required this.loginrequest});
   @override
   _StudentDataDetailsState createState() => _StudentDataDetailsState();
 }
 
 class _StudentDataDetailsState extends State<StudentDataDetails>
     with TickerProviderStateMixin {
-   
+     
+
   String getsplitimage(String url) {
     List<String> data = url.split('/');
     String schoolid = data[4];
@@ -108,11 +108,7 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
             },
             trailing: Icon(Icons.arrow_right),
           ),
-          ListTile(
-              title: Text('Logout'),
-              onTap: _onBackPressed,
-              trailing: Icon(Icons.power_settings_new),
-          ),
+         
           ],
         ),
       ),
@@ -330,30 +326,6 @@ class _StudentDataDetailsState extends State<StudentDataDetails>
         ),
     );
   }
-    Future<bool> _onBackPressed() {
-    return showDialog(
-          context: context,
-          builder: (context) =>  AlertDialog(
-            title:  Text('Are you sure?'),
-            content:  Text('Do you want to exit an App'),
-            actions: <Widget>[
-               GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("NO"),
-              ),
-              SizedBox(height: 16),
-               GestureDetector(
-                onTap: ()async{
-               
-                  SystemNavigator.pop();
-                }, 
-                child: Text("YES"),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
+    
 
 }

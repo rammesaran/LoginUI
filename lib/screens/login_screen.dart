@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:new_webapp_demo/model/login_reques_model.dart';
 import 'package:new_webapp_demo/model/parent_data_model.dart';
-import 'package:new_webapp_demo/screens/students_screen.dart';
+import 'package:new_webapp_demo/screens/shared_screen.dart';
 import 'package:new_webapp_demo/services/login_request.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,13 +17,32 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool passwordVisible;
 
+  //shared preference
+  SharedPreferences logindata;
+  bool newuser;
+
   @override
   void initState() {
     super.initState();
     passwordVisible = true;
+    checkIfAlreadyLogin();
+  }
+ void checkIfAlreadyLogin() async {
+    logindata = await SharedPreferences.getInstance();
+    newuser = (logindata.getBool('login') ?? true);
+    print(newuser);
+    if (newuser == false) {
+      Navigator.pushReplacement(
+          context, new MaterialPageRoute(builder: (context) => SharedScreen()));
+    }
   }
 
-
+@override
+  void dispose() {
+    mobilenumber.dispose();
+    password.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
 // logo
@@ -90,15 +110,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 await request.getParentDetails(
                                                     input.loginId);
                                             if (input.name == "") {
-                                           
+                                              logindata.setBool('login', false);
+                                              logindata.setString('LoginId', input.loginId.toString());
+                                              logindata.setString("Name", input.name);
+                                              logindata.setString("Status", input.status);
+                                              print(logindata);
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      StudentDataDetails(
-                                                    loginrequest: input,
-                                                    parentModel: parentdata,
-                                                  ),
+                                                  //     StudentDataDetails(
+                                                  //   loginrequest: input,
+                                                  //   parentModel: parentdata,
+                                                  // ),
+                                                  SharedScreen()
                                                 ),
                                               );
                                             } else if (input.name
@@ -108,15 +133,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         .fatherFirstName +
                                                     parentdata.parentDetails
                                                         .fatherLastName) {
-                                       
+                                                             logindata.setBool('login', false);
+                                              logindata.setString('LoginId', input.loginId.toString());
+                                              logindata.setString("Name", input.name);
+                                              logindata.setString("Status", input.status);
+                                              print(logindata);
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      StudentDataDetails(
-                                                    loginrequest: input,
-                                                    parentModel: parentdata,
-                                                  ),
+                                                  //     StudentDataDetails(
+                                                  //   loginrequest: input,
+                                                  //   parentModel: parentdata,
+                                                  // ),
+                                                   SharedScreen(),
                                                 ),
                                               );
                                             } else if (input.name
@@ -126,7 +156,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                                         .motherFirstName +
                                                     parentdata.parentDetails
                                                         .motherLastName) {
-                                     
+                                              logindata.setBool('login', false);
+                                              logindata.setString('LoginId', input.loginId.toString());
+                                              logindata.setString("Name", input.name);
+                                              logindata.setString("Status", input.status);
+                                              print(logindata);
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -134,10 +168,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       //     MotherProfile(
                                                       //   parentinput: parentdata,
                                                       // ),
-                                                      StudentDataDetails(
-                                                    loginrequest: input,
-                                                    parentModel: parentdata,
-                                                  ),
+                                                  //     StudentDataDetails(
+                                                  //   loginrequest: input,
+                                                  //   parentModel: parentdata,
+                                                  // ),
+                                                    SharedScreen(),
                                                 ),
                                               );
                                             }
@@ -153,14 +188,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                             } else if (input.status ==
                                 'Invalid UserName and PassWord') {
-                         
                               final snackBar = SnackBar(
                                 content:
                                     Text('Invalid MobileNumber or Password'),
                               );
                               Scaffold.of(context).showSnackBar(snackBar);
                             } else {
-                
                               final snackBar = SnackBar(
                                 content: Text('UserName Not Exit in System'),
                               );

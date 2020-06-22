@@ -32,7 +32,7 @@ class _NotesScreenState extends State<NotesScreen> {
                          trailing: Icon(Icons.navigate_next,
                           color: Colors.white,
                          ),
-                         leading: Icon(Icons.subject,
+                         leading: Icon(Icons.speaker_notes,
                           color: Colors.white,
                          ),
                          
