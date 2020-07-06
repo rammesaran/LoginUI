@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:new_webapp_demo/model/homework_model.dart';
 
 class DetailsPage extends StatefulWidget {
-  final  List<HomeWorkModel> homeworkdetails;
+  final List<HomeWorkModel> homeworkdetails;
 
-  const DetailsPage({Key key, @required this.homeworkdetails}) : super(key: key);
+  const DetailsPage({Key key, @required this.homeworkdetails})
+      : super(key: key);
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
@@ -14,9 +15,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Text(
-            widget.homeworkdetails[0].homeWorkDescription
-          ),
+        child: Text(widget.homeworkdetails[0].homeWorkDescription),
       ),
     );
   }
